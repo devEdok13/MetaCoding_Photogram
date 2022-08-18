@@ -21,7 +21,9 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update # create는 서버 재실행시 다 지우고 새로 만듬
+      ddl-auto: update
+      # generatedValue 전략 설정 후 첫 실행시에는 create로 만들어서 스키마를 적용 후  update로 변경해서 서버 재실행 해야함
+      # create는 서버 재실행시 다 지우고 새로 만듬
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true

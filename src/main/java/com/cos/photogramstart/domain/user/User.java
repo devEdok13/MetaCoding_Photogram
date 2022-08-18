@@ -1,6 +1,7 @@
 package com.cos.photogramstart.domain.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 //  JPA - Java Persistence Api (자바로 데이터를 영구적으로 저장(DB에 저장)할 수 있는 API를 제공)
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -24,11 +26,11 @@ public class User {
 
   private String name;
 
+  private String email;
+
   private String website;
 
   private String bio; // 자기소개
-
-  private String email;
 
   private String phone;
 
