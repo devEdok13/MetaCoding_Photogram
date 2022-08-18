@@ -1,5 +1,6 @@
 package com.cos.photogramstart.web;
 
+import com.cos.photogramstart.web.dto.auth.SignupDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,8 @@ public class AuthController {
 
   // 회원가입 버튼 클릭 -> /auth/signup -> 가입하기 버튼  클릭-> /auth/signin
   @PostMapping("/auth/signup")
-  public String signUp() {
-    log.info("실행됨?");
+  public String signUp(SignupDto signupDto) { //  key=value (x-www-form-urlencoded)
+    log.info(signupDto.toString());
     return "auth/signin";
   }
 }
