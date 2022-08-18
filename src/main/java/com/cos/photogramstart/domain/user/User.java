@@ -20,7 +20,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY) // 번호 증가 전략이 DB를 따라간다 (mysql : auto-increment 전략, oracle : sequence 전략)
   private Long id;
 
-  @Column(unique = true)
+  @Column(unique = true, length = 20)
   private String username;
   private String password;
   private String name;
