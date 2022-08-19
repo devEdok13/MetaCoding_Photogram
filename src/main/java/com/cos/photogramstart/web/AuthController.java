@@ -7,8 +7,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor  //  final필드를 DI할 때 사용
 @Slf4j
@@ -36,14 +43,24 @@ public class AuthController {
 
   // 회원가입 버튼 클릭 -> /auth/signup -> 가입하기 버튼  클릭-> /auth/signin
   @PostMapping("/auth/signup")
-  public String signUp(SignupDto signupDto) { //  key=value (x-www-form-urlencoded)
+  public @ResponseBody String signUp(@Valid SignupDto signupDto, BindingResult bindingResult) { //  key=value (x-www-form-urlencoded)
     log.info(signupDto.toString());
-    // User <- SignupDto
-    User user = signupDto.toEntity();
-    log.info(user.toString());
-    User userEntity = authService.회원가입(user);
-    log.info(userEntity.toString());
-    return "auth/signin";
+
+    if (bindingResult.hasErrors()) {
+      Map<String, String> errorMap = new HashMap<>();
+
+      for (FieldError error : bindingResult.getFieldErrors()) {
+        errorMap.put(error.getField(), error.getDefaultMessage());
+      }
+      return "<h1>error occured</h1>";
+    } else {
+      // User <- SignupDto
+      User user = signupDto.toEntity();
+      log.info(user.toString());
+      User userEntity = authService.회원가입(user);
+      log.info(userEntity.toString());
+      return "auth/signin";
+    }
   }
 }
 

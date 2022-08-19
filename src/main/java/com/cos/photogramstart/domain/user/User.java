@@ -22,8 +22,14 @@ public class User {
 
   @Column(unique = true, length = 20)
   private String username;
+
+  @Column(nullable = false)
   private String password;
+
+  @Column(nullable = false)
   private String name;
+
+  @Column(nullable = false)
   private String email;
 
   private String website;
