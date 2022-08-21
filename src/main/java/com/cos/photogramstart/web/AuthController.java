@@ -1,6 +1,7 @@
 package com.cos.photogramstart.web;
 
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.auth.SignupDto;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class AuthController {
 
   // 회원가입 버튼 클릭 -> /auth/signup -> 가입하기 버튼  클릭-> /auth/signin
   @PostMapping("/auth/signup")
-  public @ResponseBody String signUp(@Valid SignupDto signupDto, BindingResult bindingResult) { //  key=value (x-www-form-urlencoded)
+  public String signUp(@Valid SignupDto signupDto, BindingResult bindingResult) { //  key=value (x-www-form-urlencoded)
     log.info(signupDto.toString());
 
     if (bindingResult.hasErrors()) {
@@ -52,7 +53,7 @@ public class AuthController {
       for (FieldError error : bindingResult.getFieldErrors()) {
         errorMap.put(error.getField(), error.getDefaultMessage());
       }
-      return "<h1>error occured</h1>";
+      throw new CustomValidationException("유효성 검사 실패", errorMap);
     } else {
       // User <- SignupDto
       User user = signupDto.toEntity();
